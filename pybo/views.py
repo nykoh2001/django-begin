@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 
 # Create your views here.
 
@@ -10,6 +10,6 @@ def index(req):
   return render(req, 'pybo/question_list.html', context)
 
 def detail(req, question_id):
-  question = Question.objects.get(id=question_id)
+  question = get_object_or_404(Question, id=question_id)
   context = {'question': question}
   return render(req, 'pybo/question_detail.html', context)

@@ -2,7 +2,9 @@
 <h4>Questions</h4>
 <ul>
 	{% for question in question_list%}
-	<li><a href="/pybo/{{question.id}}/">{{question.subject}}</a></li>
+	<li><a href={%url 'pybo:detail' question.id %}>
+		<!-- url path parameter-->
+		{{question.subject}}</a></li>
 	{% endfor %}
 </ul>
 {% else%}
