@@ -6,10 +6,14 @@ class Question(models.Model): # inherit Model class
   content = models.TextField()
   create_date = models.DateTimeField()
   
+  def __str__(self) -> str:
+    return self.subject
+  
 class Answer(models.Model):
   question = models.ForeignKey(Question, on_delete=models.CASCADE)
   content = models.TextField()
   create_date = models.DateTimeField()
   
-
+  def __str__(self) -> str:
+    return self.content
   
