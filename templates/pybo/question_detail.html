@@ -1,0 +1,10 @@
+{%if question%}
+
+<h1>{{question.subject}}</h1>
+<h3>Content</h3>
+{{question.content}}
+<h3>Create Time</h3>
+{{question.create_date}} {% else %}
+<p>Error: No question found.</p>
+
+{% endif %}
