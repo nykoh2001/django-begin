@@ -4,6 +4,7 @@ from django.utils import timezone
 # Create your views here.
 
 from .models import Question, Answer
+from .forms import QuestionForm
 
 def index(req):
   question_list = Question.objects.order_by('-create_date')
@@ -21,3 +22,7 @@ def answer_create(req, question_id):
   answer = Answer(question=question, content = req.POST.get('content'), create_date = timezone.now())
   answer.save()
   return redirect('pybo:detail', question_id = question.id)
+
+def question_create(req):
+  form = QuestionForm()
+  return render(req, 'pybo/question_form.html', {'form': form})

@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="container">
+    <h5 class="my-3 border-bottom pb-2">
+      질문 등록
+    </h5>
+    <form method="post">
+      {% csrf_token %}
+      {{ form.as_p }} 
+      {% comment %} form의 fields에 대한 html code 자동 생성 {% endcomment %}
+      <button type="submit" class="btn btn-primary">저장하기</button>
+    </form>
+  </div>
+{% endblock content %}
