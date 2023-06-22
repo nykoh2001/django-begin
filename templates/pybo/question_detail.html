@@ -3,12 +3,20 @@
   <h1>{{question.subject}}</h1>
   <h3>Content</h3>
   <div>{{question.content}}</div>
-  <form action={%url 'pybo:answer_create' question.id%} method="post">
-    {% csrf_token %}
-    <textarea name="content" id="content" rows="15"></textarea>
-    <input type="submit" value="답변등록"/>
-  </form>
-{% else %}
-  <p>Error: No question found.</p>
 
-{% endif %}
+  <h5>{{question.answer_set.count}}개의 답변이 있습니다.</h5>
+  <ul>
+    {%for a in question.answer_set.all%}
+      <li>{{a.content}}</li>
+      {%endfor%}
+    </ul>
+
+    <form action={%url 'pybo:answer_create' question.id%} method="post">
+      {% csrf_token %}
+      <textarea name="content" id="content" rows="15"></textarea>
+      <input type="submit" value="답변등록"/>
+    </form>
+  {% else %}
+    <p>Error: No question found.</p>
+
+  {% endif %}
