@@ -1,8 +1,9 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
+from django.utils import timezone
 
 # Create your views here.
 
-from .models import Question
+from .models import Question, Answer
 
 def index(req):
   question_list = Question.objects.order_by('-create_date')
@@ -13,3 +14,10 @@ def detail(req, question_id):
   question = get_object_or_404(Question, id=question_id)
   context = {'question': question}
   return render(req, 'pybo/question_detail.html', context)
+
+def answer_create(req, question_id):
+  question = get_object_or_404(Question, pk=question_id)
+  # question.answer_set.create(content=req.POST.get('content'), create_date=timezone.now())
+  answer = Answer(question=question, content = req.POST.get('content'), create_date = timezone.now())
+  answer.save()
+  return redirect('pybo:detail', question_id = question.id)
