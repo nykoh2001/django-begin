@@ -1,12 +1,14 @@
 {% if question_list %}
-<h4>Questions</h4>
-<ul>
-	{% for question in question_list%}
-	<li><a href={%url 'pybo:detail' question.id %}>
-		<!-- url path parameter-->
-		{{question.subject}}</a></li>
-	{% endfor %}
-</ul>
-{% else%}
-<p>no question.</p>
+  <h4>Questions</h4>
+  <ul>
+    {% for question in question_list%}
+      <li>
+        <a href={%url 'pybo:detail' question.id %}>
+          <!-- url path parameter-->
+          {{question.subject}}</a>
+      </li>
+    {% endfor %}
+  </ul>
+  {% else%}
+  <p>no question.</p>
 {% endif %}
