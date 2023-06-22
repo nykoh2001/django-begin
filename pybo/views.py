@@ -24,5 +24,13 @@ def answer_create(req, question_id):
   return redirect('pybo:detail', question_id = question.id)
 
 def question_create(req):
-  form = QuestionForm()
-  return render(req, 'pybo/question_form.html', {'form': form})
+  if req.method == "GET":
+    form = QuestionForm()
+    return render(req, 'pybo/question_form.html', {'form': form})
+  if req.method=="POST":
+    form = QuestionForm(req.POST)
+    if form.is_valid():
+      question = form.save(commit=False)
+      question.create_date = timezone.now()
+      question.save()
+      return redirect("pybo:index")
