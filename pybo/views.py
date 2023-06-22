@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.utils import timezone
 from django.http import HttpResponseNotAllowed
+from django.core.paginator import Paginator
 
 # Create your views here.
 
@@ -8,8 +9,11 @@ from .models import Question, Answer
 from .forms import QuestionForm, AnswerForm
 
 def index(req):
+  page = req.GET.get('page', 1)
   question_list = Question.objects.order_by('-create_date')
-  context = {'question_list': question_list}
+  paginator = Paginator(question_list, 10)
+  page_object = paginator.get_page(page)
+  context = {'question_list': page_object}
   return render(req, 'pybo/question_list.html', context)
 
 def detail(req, question_id):
