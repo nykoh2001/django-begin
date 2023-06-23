@@ -2,6 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.utils import timezone
 from django.http import HttpResponseNotAllowed
 from django.core.paginator import Paginator
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
@@ -21,6 +22,7 @@ def detail(req, question_id):
   context = {'question': question}
   return render(req, 'pybo/question_detail.html', context)
 
+@login_required(login_url="common:login")
 def answer_create(req, question_id):
   question = get_object_or_404(Question, pk=question_id)
   # question.answer_set.create(content=req.POST.get('content'), create_date=timezone.now())
@@ -30,23 +32,27 @@ def answer_create(req, question_id):
         form = AnswerForm(req.POST)
         if form.is_valid():
             answer = form.save(commit=False)
+            answer.author = req.user
             answer.create_date = timezone.now()
             answer.question = question
             answer.save()
             return redirect('pybo:detail', question_id=question.id)
   else:
-      return HttpResponseNotAllowed('Only POST is possible.')
+      form = AnswerForm()
   context = {'question': question, 'form': form}
   return render(req, 'pybo/question_detail.html', context)
 
+@login_required(login_url="common:login")
 def question_create(req):
   if req.method == "GET":
     form = QuestionForm()
     return render(req, 'pybo/question_form.html', {'form': form})
+  print("post")
   if req.method=="POST":
     form = QuestionForm(req.POST)
     if form.is_valid():
       question = form.save(commit=False)
+      question.author = req.user
       question.create_date = timezone.now()
       question.save()
   return redirect("pybo:index")
