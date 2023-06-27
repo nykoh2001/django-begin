@@ -37,6 +37,10 @@
           </div>
         </div>
         <div class="my-3">
+          <a href="javascript:void(0)" data-uri="{%url 'pybo:question_vote' question.id%}"
+          class="recommend btn btn-sm btn-outline-secondary">추천
+            <span class="badge rounded-pill bg-success">{{question.voter.count}}</span>
+          </a>
           {% if request.user == question.author %}
           <a href="{%url 'pybo:question_modify' question.id%} " class="btn btn-sn btn-outline-secondary">
             수정
@@ -76,6 +80,10 @@
             </div>
           </div>
           <div class="my-3">
+            <a href="javascript:void(0)" data-uri="{%url 'pybo:question_vote' question.id%}"
+            class="recommend btn btn-sm btn-outline-secondary">추천
+              <span class="badge rounded-pill bg-success">{{answer.voter.count}}</span>
+            </a>
           {% if request.user == answer.author %}
           <a href="{%url 'pybo:answer_modify' answer.id%} " class="btn btn-sn btn-outline-secondary">
             수정
@@ -126,5 +134,13 @@ Array.from(delete_elements).forEach(function(element) {
         };
     });
 });
+const recommend_element = document.getElementsByClassName('recommend')
+Array.from(recommend_element).forEach(function(element) {
+  element.addEventListener('click', function() {
+    if (confirm("추천하시겠습니끼?")) {
+      location.href = this.dataset.uri // element의 data-uri 호출
+    }
+  })
+})
 </script>
 {% endblock %}
